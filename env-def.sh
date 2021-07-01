@@ -43,7 +43,8 @@ then
 
 else
 
-  OSN=$(hostnamectl status | grep System: | awk '{print $3}')
+  _ID=$(cat /etc/os-release | grep -w ID | awk -F = '{print $2}')
+  OSN=${_ID^}
   OSV=$(cat /etc/os-release | grep -w VERSION_ID | awk -F '"' '{print $2}')
   OSE=$(cat /etc/os-release | grep -w VERSION_CODENAME | awk -F = '{print $2}')
 
