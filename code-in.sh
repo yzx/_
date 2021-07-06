@@ -30,6 +30,9 @@ if [ -f $CODE_DEFS ]; then
       elif [ "$KERNEL" = "Darwin" ]; then
         unzip $INST_FILE -d $APP_ROOT
 
+      elif [ "$KERNEL" = "Windows" ]; then
+        ./$INST_FILE
+
       fi
 
       printf "\n"
