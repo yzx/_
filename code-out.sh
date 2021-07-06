@@ -20,6 +20,10 @@ if [ -f $CODE_DEFS ]; then
       elif [ "$KERNEL" = "Darwin" ]; then
         rm -rf "$CODE_HOME"
 
+      elif [ "$KERNEL" = "Windows" ]; then
+        ~/AppData/Local/Programs/Microsoft\ VS\ Code/unins000.exe
+        rm -rf ~/.vscode ~/AppData/Roaming/Code
+
       fi
       
     fi
