@@ -17,6 +17,7 @@
 **/*.sw?
 # Implementation directories and files
 **/__*
+**/_*
 **/package-lock.json
 **/node_modules
 **/dist

@@ -1,5 +1,37 @@
 #!/bin/bash
 
+check_err () {
+
+  RET=$?
+  
+  if [ $RET -ne 0 ]
+  then
+  
+    printf "ERR $RET\n\n"
+    exit $RET
+  
+  else
+  
+    printf "OK\n"
+  
+  fi
+
+}
+
+THIS_REPO_PATH=$(git rev-parse --show-toplevel 2> /dev/null)
+UNDER_DIR=$THIS_REPO_PATH/__
+DOWNLOAD_DIR=$UNDER_DIR/download
+
+I_AM=$(whoami 2> /dev/null)
+SUDO=
+
+if [ "$I_AM" != "root"  ] 
+then
+
+  SUDO=sudo
+
+fi
+
 KERNEL=$(uname -s)
 
 if [ "$KERNEL" != "Linux"  ] &&
@@ -27,6 +59,7 @@ fi
 OSN=
 OSV=
 OSE=
+OSS=
 
 if [ "$KERNEL" = "Windows" ]
 then
@@ -47,20 +80,24 @@ else
   OSN=${_ID^}
   OSV=$(cat /etc/os-release | grep -w VERSION_ID | awk -F '"' '{print $2}')
   OSE=$(cat /etc/os-release | grep -w VERSION_CODENAME | awk -F = '{print $2}')
+  OSS=/etc/systemd/system
 
 fi
 
-if [ "$OSN" != "Raspbian" ] &&
-   [ "$OSN" != "Debian" ]   &&
-   [ "$OSN" != "Ubuntu" ]   &&
-   [ "$OSN" != "Windows" ]  &&
-   [ "$OSN" != "MacOSX" ]
+if
+   [ "$OSN" != "Raspbian" ] &&
+   [ "$OSN" != "Debian"   ] &&
+   [ "$OSN" != "Ubuntu"   ] &&
+   [ "$OSN" != "Windows"  ] &&
+   [ "$OSN" != "MacOSX"   ]
 then
 
   printf "\nUnsupported Operating System\n\n"
   exit 1
 
 fi
+
+mkdir -p $DOWNLOAD_DIR
 
 if [ "$1" != "" ]
 then
